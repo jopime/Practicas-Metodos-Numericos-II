@@ -1,0 +1,24 @@
+NAME                           FSTYPE   LABEL    MOUNTPOINT NAME                             SIZE OWNER GROUP MODE
+sda                                                         sda                                8G root  disk  brw-rw----
+└─sda1                         linux_ra ubuntuServerJopime:0
+                                                            └─sda1                             8G root  disk  brw-rw----
+  └─md0                        LVM2_mem                       └─md0                            8G root  disk  brw-rw----
+    ├─HDs-arranq (dm-0)        ext4              /boot          ├─HDs-arranq (dm-0)          408M root  disk  brw-rw----
+    ├─HDs-hogar (dm-1)         crypto_L                         ├─HDs-hogar (dm-1)           472M root  disk  brw-rw----
+    │ └─HDs-hogar_crypt (dm-6) ext4              /home          │ └─HDs-hogar_crypt (dm-6)   470M root  disk  brw-rw----
+    ├─HDs-raiz (dm-2)          crypto_L                         ├─HDs-raiz (dm-2)            3,7G root  disk  brw-rw----
+    │ └─HDs-raiz_crypt (dm-4)  ext4              /              │ └─HDs-raiz_crypt (dm-4)    3,7G root  disk  brw-rw----
+    └─HDs-swap (dm-3)          crypto_L                         └─HDs-swap (dm-3)            1,4G root  disk  brw-rw----
+      └─HDs-swap_crypt (dm-5)  swap              [SWAP]           └─HDs-swap_crypt (dm-5)    1,4G root  disk  brw-rw----
+sdb                                                         sdb                                8G root  disk  brw-rw----
+└─sdb1                         linux_ra ubuntuServerJopime:0
+                                                            └─sdb1                             8G root  disk  brw-rw----
+  └─md0                        LVM2_mem                       └─md0                            8G root  disk  brw-rw----
+    ├─HDs-arranq (dm-0)        ext4              /boot          ├─HDs-arranq (dm-0)          408M root  disk  brw-rw----
+    ├─HDs-hogar (dm-1)         crypto_L                         ├─HDs-hogar (dm-1)           472M root  disk  brw-rw----
+    │ └─HDs-hogar_crypt (dm-6) ext4              /home          │ └─HDs-hogar_crypt (dm-6)   470M root  disk  brw-rw----
+    ├─HDs-raiz (dm-2)          crypto_L                         ├─HDs-raiz (dm-2)            3,7G root  disk  brw-rw----
+    │ └─HDs-raiz_crypt (dm-4)  ext4              /              │ └─HDs-raiz_crypt (dm-4)    3,7G root  disk  brw-rw----
+    └─HDs-swap (dm-3)          crypto_L                         └─HDs-swap (dm-3)            1,4G root  disk  brw-rw----
+      └─HDs-swap_crypt (dm-5)  swap              [SWAP]           └─HDs-swap_crypt (dm-5)    1,4G root  disk  brw-rw----
+sr0                                                         sr0                             1024M root  cdrom brw-rw----

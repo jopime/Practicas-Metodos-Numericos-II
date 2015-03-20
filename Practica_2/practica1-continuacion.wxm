@@ -1,0 +1,287 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.0 ] */
+
+/* [wxMaxima: title   start ]
+Continuacion de la practica 1
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: section start ]
+Se quiere aproximar la única solución real s de la ecuación x^2−3=0 
+en
+el intervalo [1, 2]. Para ello se consideran, sobre dicho intervalo,
+ las siguientes
+funciones:
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: input   start ] */
+g0(x):=x^2-3;g1(x):=x^2+x-3;g2(x):=3/x;g3(x):=(x+3/x)/2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+a) Justifica basandote en la representacion grafica, por que para cada i=1,2,3 gi(x) tiene a s como unico punto fijo en [1,2]
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([g0(x),g1(x),g2(x),g3(x),x], [x,1,2])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([g0(x),g1(x),g2(x),g3(x),x], [x,1,2], [y,-0.4,2])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Como observamos en la grafica en el punto s=sqrt(3), solucion de g0, es el unico punto fijo de las gi, en [1,2]
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+b)Para cada i = 1, 2, 3 , elabora un programa que calcule las 10 primeras
+iteraciones del método de iteración funcional 
+asociado a gi que considera
+x
+(0) = 2 . El programa debe mostrar en pantalla todas las iteraciones
+calculadas con 32 dígitos
+ significativos. ¿Para cuál/es de las funciones gi
+consideradas el método de iteración funcional asociado permite aproximar
+s? Justifica la respuesta y da un valor aproximado para s.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+gi(n):=block([x],
+x:2,
+if n=1 then
+    (
+        for i:1 thru 10 do (
+        x:g1(x),
+        print("iteracion",i," x:",bfloat(x))
+        )
+    )
+else if n=2 then(
+        for i:1 thru 10 do (
+            x:g2(x),
+        print("iteracion",i," x:",bfloat(x))
+        )
+    )
+else if n=3 then(
+        for i:1 thru 10 do (
+        x:g3(x),
+        fpprec:32,
+        print("iteracion",i," x:",bfloat(x))
+        )
+)
+)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+gi(1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+gi(2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+gi(3);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Claramante la que mejor se aproxima es la tercera, ya que desde la quinta iteracion da un valor muy proximo a s.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Dada la ecuación x − (1/2)cos(x) = 0 , se pide:
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+a) Razona por qué tiene una única solución s en el intervalo [0, π/2].
+    
+    Este problema es equivalente a buscar los puntos fijos de b(x)=cos(x)/2, como vemos en la grafica solamente tiene 1 en el intervalo [0,π/2]
+Y comprobamos que cumple las condiciones de convergencia segun el teorema 5
+    -b(x) Continua en el intervalo [0, π/2].
+    -La imagen de la funcion,b([0, π/2]) está contenida en el intervalo [0, π/2].
+    -|b´(x)|≤l≤0.5<1 luego es contractil 
+Ya podemos asegurar la convergencia del metodo de iteración funcional y la unicidad del punto fijo
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+b(x):=cos(x)/2;define(db(x),diff(b(x),x,1));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([b(x),x,0,%pi/2], [x,0,%pi/2])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([db(x),-0.5], [x,0,%pi/2],[y,-0.55,0])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+b) Sin calcular iteraciones, describe un método de iteración funcional (distinto
+al de Newton-Raphson) que,considerando x^(0) = 1 como aproximación
+inicial, permita aproximar s. Razona la respuesta.
+¿Qué orden de convergencia tiene la sucesión de iteraciones generada por dicho método?
+
+    Podemos usar el metodo funcional que tiene por función a b(x), y como aproximacion inicial x^0=1
+    La convergencia es lineal como consecuencia del teorema de convergencia global (Tº9)
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+c) Elabora un programa que calcule las 12 primeras iteraciones del método
+de iteración funcional descrito en el apartado anterior.
+ El programa sólo debe mostrar en pantalla, con 32 dígitos significativos, el valor aproximado
+de s proporcionado por la última de las iteraciones calculadas.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+pb():=block([x],
+fpprec:32,
+x:1.0b0,
+for i:1 thru 12 do(
+    x:b(x)
+    ),
+print ("solucion hallada x: ",x)
+)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+pb();
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+d) Haz un programa que calcule las iteraciones del método descrito en b)
+hasta un número máximo establecido, de modo que cuando la diferencia
+en valor absoluto de dos iteraciones consecutivas sea menor que una
+cierta tolerancia (tol) se detenga el cálculo de las iteraciones, e informe
+de ello mediante el siguiente mensaje: “Se ha alcanzado la tolerancia”.
+ El programa además debe mostrar en pantalla, con 32 dígitos significativos,
+todas las iteraciones calculadas. Ejecuta el programa para un número
+máximo de 50 iteraciones y tol=10−12: ¿Cuántas iteraciones se realizan?
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+pbcontol(n,tol):=block([x],
+    x:1.0b0,
+    for i:1 thru n do(
+        if(abs(x-b(x))>tol) then(
+            x:b(x),
+            print("iteracion ",i," x: ",x)
+        )
+        else(
+            print("Se ha alcanzado la tolerancia en la iteracion ",i," x: ",x),
+            i:n
+            )
+    )
+
+)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+pbcontol(50,10^-12)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Comprueba que s = −2 es un punto fijo de la función g(x) = 1 +x−x^2/4
+tal que |g′(s)| > 1. Elabora un programa que calcule las 15 primeras iteraciones
+del método de iteración funcional asociado a g que considera x^(0) = −2.05
+como aproximación inicial.El programa debe mostrar en pantalla, con 32 digitos significativos, 
+todas las iteraciones calculadas. ¿Permite dicho método aproximar s?¿Por qué? 
+¿Era de esperar la respuesta anterior?¿Por qué? 
+Dibuja juntas en el intervalo [−4, 4] las gráficas de g(x) y de y(x) = x y recuerda
+la interpretación geométrica del cálculo de las iteraciones en los métodos de iteración funcional.
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+c(x):=1+x-(x^2/4)$  define(dc(x),diff(c(x),x,1))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Comprobamos que -2 es punto fijo y que la derivada en dicho punto es mayor a 1
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+is(c(-2)=-2);  is(abs(dc(-2))>1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+pc():=block([x],
+x:-2.05,
+fpprec:32,
+for i:1 thru 15 do (
+    x:c(x),
+    print("iteracion: ",i," x:",bfloat(x)) 
+    ) 
+)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+pc()$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Como observamos el metodo diverge ,ademas |c´(-2)| es mayor que 1 luego era de esperar este resultado segun la teoria,
+y viendo la grafica observamos que segun la interpretacion geometrica, la sucesion que obtenemos es repulsiva ya que 
+la funcion se queda por debajo de la identidad, estando el valo inicial a la izquierda de la solucion, luego la sucesion 
+diverge negativamente como tambien hemos comprobado empiricamente.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([c(x),x], [x,-4,4])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: section start ]
+Comprueba que s = 0 es un punto fijo de la función g(x) = x+x^2/2 
+tal que |g′(s)|=1.Dibuja juntas en el intervalo [−0.5,0.5] las gráficas de g(x) y
+de y(x) = x, y deduce  si los métodos de iteración funcional asociados a g que
+consideran x^(0) = −0.2 y x^(0) = 0.2 , permiten aproximar s. Elabora un
+programa que calcule y muestre en pantalla, con 32 dígitos significativos,
+las 20 primeras iteraciones de cada uno de estos dos métodos.
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+d(x):=x+x^2/2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([d(x),x], [x,-0.4,0.4])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([d(x),x,-0.3,0], [x,-0.4,0.4],[y,-0.4,0.2])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Observando la grafica vemos que podemos cojer el intervalo [-0.3,0] al cual pertenece -0.2 
+y vemos que cumple las condiciones de convergencia global:
+    -f es c1 al ser un polinomio.
+    -f[-0.3,0] esta contenido en [-0.3,0]
+    -f´(x)=x+1≤l<1  para todo ex del intervalo [-0.3,0]        ME VUELVE A FALLAR EN EL EXTREMO 0
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+pd(x):=block([y],
+fpprec:32,
+y:x,
+for i:1 thru 20 do (
+    y:d(y),
+    print("iteracion: ",i," y:",bfloat(y)) 
+    ) 
+)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+pd(0.2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+pd(-0.2);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

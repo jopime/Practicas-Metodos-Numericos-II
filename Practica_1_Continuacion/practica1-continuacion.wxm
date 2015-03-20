@@ -197,6 +197,8 @@ Dibuja juntas en el intervalo [−4, 4] las gráficas de g(x) y de y(x) = x y re
 la interpretación geométrica del cálculo de las iteraciones en los métodos de iteración funcional.
    [wxMaxima: section end   ] */
 
+/* [wxMaxima: fold    start ] */
+
 /* [wxMaxima: input   start ] */
 c(x):=1+x-(x^2/4)$  define(dc(x),diff(c(x),x,1))$
 /* [wxMaxima: input   end   ] */
@@ -235,6 +237,8 @@ diverge negativamente como tambien hemos comprobado empiricamente.
 wxplot2d([c(x),x], [x,-4,4])$
 /* [wxMaxima: input   end   ] */
 
+/* [wxMaxima: fold    end   ] */
+
 /* [wxMaxima: section start ]
 Comprueba que s = 0 es un punto fijo de la función g(x) = x+x^2/2 
 tal que |g′(s)|=1.Dibuja juntas en el intervalo [−0.5,0.5] las gráficas de g(x) y
@@ -245,23 +249,26 @@ las 20 primeras iteraciones de cada uno de estos dos métodos.
    [wxMaxima: section end   ] */
 
 /* [wxMaxima: input   start ] */
-d(x):=x+x^2/2;
+d(x):=x+x^2/2$ define(dd(x),diff(d(x),x,1))$
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-wxplot2d([d(x),x], [x,-0.4,0.4])$
+is(abs(dd(0))=1);
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-wxplot2d([d(x),x,-0.3,0], [x,-0.4,0.4],[y,-0.4,0.2])$
+wxplot2d([d(x),x], [x,-0.5,0.5])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([d(x),x], [x,-0.2,0.2])$
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: comment start ]
-Observando la grafica vemos que podemos cojer el intervalo [-0.3,0] al cual pertenece -0.2 
-y vemos que cumple las condiciones de convergencia global:
-    -f es c1 al ser un polinomio.
-    -f[-0.3,0] esta contenido en [-0.3,0]
-    -f´(x)=x+1≤l<1  para todo ex del intervalo [-0.3,0]        ME VUELVE A FALLAR EN EL EXTREMO 0
+Observando la grafica vemos que el punto fijo en el intervalo es solamente x=0, ademas comprobado que su derivada es igual a 1
+teoricamente no podemos asegurar convergencia para las iteraciones funcionales, solo nos queda dos soluciones:
+    1º Geometricamente podemos ver en la segunda grafica que la sucesion convergue a 0 si el x^0=-0.2 pero diverge si x^0=0.2
+    2º Empiricamente mediante el programa , que como vemos nos demuestra lo visto en la solucion geometrica
    [wxMaxima: comment end   ] */
 
 /* [wxMaxima: input   start ] */

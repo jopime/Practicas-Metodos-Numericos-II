@@ -13,8 +13,6 @@ el intervalo [1, 2]. Para ello se consideran, sobre dicho intervalo,
 funciones:
    [wxMaxima: section end   ] */
 
-/* [wxMaxima: fold    start ] */
-
 /* [wxMaxima: input   start ] */
 g0(x):=x^2-3;g1(x):=x^2+x-3;g2(x):=3/x;g3(x):=(x+3/x)/2;
 /* [wxMaxima: input   end   ] */
@@ -50,10 +48,11 @@ s? Justifica la respuesta y da un valor aproximado para s.
 /* [wxMaxima: input   start ] */
 gi(n):=block([x],
 x:2,
+        fpprec:32,
 if n=1 then
     (
         for i:1 thru 10 do (
-        x:g1(x),
+   x:g1(x),
         print("iteracion",i," x:",bfloat(x))
         )
     )
@@ -66,7 +65,6 @@ else if n=2 then(
 else if n=3 then(
         for i:1 thru 10 do (
         x:g3(x),
-        fpprec:32,
         print("iteracion",i," x:",bfloat(x))
         )
 )
@@ -89,17 +87,13 @@ gi(3);
 Claramante la que mejor se aproxima es la tercera, ya que desde la quinta iteracion da un valor muy proximo a s.
    [wxMaxima: comment end   ] */
 
-/* [wxMaxima: fold    end   ] */
-
 /* [wxMaxima: section start ]
 Dada la ecuación x − (1/2)cos(x) = 0 , se pide:
    [wxMaxima: section end   ] */
 
-/* [wxMaxima: fold    start ] */
-
 /* [wxMaxima: comment start ]
 a) Razona por qué tiene una única solución s en el intervalo [0, π/2].
-    
+
     Este problema es equivalente a buscar los puntos fijos de b(x)=cos(x)/2, como vemos en la grafica solamente tiene 1 en el intervalo [0,π/2]
 Y comprobamos que cumple las condiciones de convergencia segun el teorema 5
     -b(x) Continua en el intervalo [0, π/2].
@@ -167,11 +161,9 @@ máximo de 50 iteraciones y tol=10−12: ¿Cuántas iteraciones se realizan?
 pbcontol(n,tol):=block([x],
     x:1.0b0,
     for i:1 thru n do(
-        if(abs(x-b(x))>tol) then(
-            x:b(x),
-            print("iteracion ",i," x: ",x)
-        )
-        else(
+        x:b(x),
+        print("iteracion ",i," x: ",x),  
+        if(abs(x-b(x))<tol) then(
             print("Se ha alcanzado la tolerancia en la iteracion ",i," x: ",x),
             i:n
             )
@@ -183,8 +175,6 @@ pbcontol(n,tol):=block([x],
 /* [wxMaxima: input   start ] */
 pbcontol(50,10^-12)$
 /* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: fold    end   ] */
 
 /* [wxMaxima: section start ]
 Comprueba que s = −2 es un punto fijo de la función g(x) = 1 +x−x^2/4
@@ -244,8 +234,6 @@ programa que calcule y muestre en pantalla, con 32 dígitos significativos,
 las 20 primeras iteraciones de cada uno de estos dos métodos.
    [wxMaxima: section end   ] */
 
-/* [wxMaxima: fold    start ] */
-
 /* [wxMaxima: input   start ] */
 d(x):=x+x^2/2$ define(dd(x),diff(d(x),x,1))$
 /* [wxMaxima: input   end   ] */
@@ -288,8 +276,6 @@ pd(0.2);
 pd(-0.2);
 /* [wxMaxima: input   end   ] */
 
-/* [wxMaxima: fold    end   ] */
-
 /* [wxMaxima: section start ]
 Se considera el polinomio p(x)=2x^4-3x^2+3x-4
    [wxMaxima: section end   ] */
@@ -311,7 +297,7 @@ n:4,
 for i:1 thru n do(
     res:coeff(p(x),x,4-i)+res*xi
     ),
-print ("res ",res)
+return (res)
 );
 /* [wxMaxima: input   end   ] */
 
@@ -338,7 +324,7 @@ res:L[1],           /*L es una lista con los coeficientes bn, de forma que l[1]=
 for i:2 thru n do(    /*Por ello vamos desde i:2 hasta n*/
     res:L[i]+res*xi
     ),
-print ("res ",res)
+return (res)
 );
 /* [wxMaxima: input   end   ] */
 
@@ -353,8 +339,6 @@ elección del intervalo considerado. ¿Cuántas soluciones reales tiene dicha
 ecuación? ¿Por qué? ¿Y cuántas complejas? ¿Por qué?
    [wxMaxima: subsect end   ] */
 
-/* [wxMaxima: fold    start ] */
-
 /* [wxMaxima: comment start ]
 Por el teorema 12, sabemos que toda solucion ,z,  del polinomio p(x)=2x^4-3x^2+3x-4, cumple que 
 para h=max{|ai/an|, para i=1,..n}, |z|<h+1, para este caso concreto |z|<3, luego podemos dibujar la grafica
@@ -368,8 +352,6 @@ de grado n tiene exactamente n soluciones en C, y el numero de soluciones comple
 wxplot2d([p(x)], [x,-3,3])$
 /* [wxMaxima: input   end   ] */
 
-/* [wxMaxima: fold    end   ] */
-
 /* [wxMaxima: subsect start ]
 Elabora un programa que calcule las 5 primeras iteraciones del método
 de Newton-Raphson que considera x^(0) = −2 como aproximación inicial,
@@ -377,6 +359,25 @@ usando el algoritmo de Hörner para calcular cada una de las iteraciones
 de dicho método. El programa debe mostrar en pantalla, con 32 dígitos
 significativos, todas las iteraciones calculadas.
    [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+(horner(-2)/hornerdef(-2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+NewtonRapson(x0):=block(
+fprrec:32,
+for i:1 thru 5 do(
+    x0:x0-(horner(x0)/hornerdef(x0)),
+    print("x",i,": ",bfloat(x0))
+),
+print("resultado : ",bfloat(x0))
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+NewtonRapson(-2)$
+/* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: subsect start ]
 Haz un programa que calcule las iteraciones del método del apartado
@@ -392,6 +393,24 @@ la última de las iteraciones calculadas.
  ¿Cuántas iteraciones se han calculado? 
 ¿Qué proporciona la última de las iteraciones calculada?¿Por qué?
    [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+NewtonRapsonTol(x0,n,tol):=block([xn,j],
+fprrec:32,
+for i:1 thru n do(
+    j:i,
+    xn:x0-(horner(x0)/hornerdef(x0)),
+    print("x",i,": ",bfloat(xn)),
+     if(abs(xn-x0)<tol) then(i:n,print("Se a alcanzado la tolerancia")),
+    x0:xn
+),
+print("resultado : ",bfloat(xn)," En la iteracion ",j)
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+NewtonRapsonTol(-2,30,10^-15)$
+/* [wxMaxima: input   end   ] */
 
 /* Maxima can't load/batch files which end with a comment! */
 "Created with wxMaxima"$

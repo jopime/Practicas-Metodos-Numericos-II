@@ -197,8 +197,6 @@ Dibuja juntas en el intervalo [−4, 4] las gráficas de g(x) y de y(x) = x y re
 la interpretación geométrica del cálculo de las iteraciones en los métodos de iteración funcional.
    [wxMaxima: section end   ] */
 
-/* [wxMaxima: fold    start ] */
-
 /* [wxMaxima: input   start ] */
 c(x):=1+x-(x^2/4)$  define(dc(x),diff(c(x),x,1))$
 /* [wxMaxima: input   end   ] */
@@ -237,8 +235,6 @@ diverge negativamente como tambien hemos comprobado empiricamente.
 wxplot2d([c(x),x], [x,-4,4])$
 /* [wxMaxima: input   end   ] */
 
-/* [wxMaxima: fold    end   ] */
-
 /* [wxMaxima: section start ]
 Comprueba que s = 0 es un punto fijo de la función g(x) = x+x^2/2 
 tal que |g′(s)|=1.Dibuja juntas en el intervalo [−0.5,0.5] las gráficas de g(x) y
@@ -247,6 +243,8 @@ consideran x^(0) = −0.2 y x^(0) = 0.2 , permiten aproximar s. Elabora un
 programa que calcule y muestre en pantalla, con 32 dígitos significativos,
 las 20 primeras iteraciones de cada uno de estos dos métodos.
    [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
 
 /* [wxMaxima: input   start ] */
 d(x):=x+x^2/2$ define(dd(x),diff(d(x),x,1))$
@@ -289,6 +287,111 @@ pd(0.2);
 /* [wxMaxima: input   start ] */
 pd(-0.2);
 /* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Se considera el polinomio p(x)=2x^4-3x^2+3x-4
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+p(x):=2*x^4-3*x^2+3*x-4;define(dp(x),diff(p(x),x,1));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Haz un programa que utilice el algoritmo de Hörner para hallar el valor
+del polinomio en x = −2 y lo muestre en pantalla. Comprueba que dicho
+valor es correcto.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+horner(xi):=block([res,n],
+res:coeff(p(x),x,4),
+n:4,
+for i:1 thru n do(
+    res:coeff(p(x),x,4-i)+res*xi
+    ),
+print ("res ",res)
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(horner(-2)=p(-2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Modifica el programa del apartado anterior para que éste calcule, además,
+el valor de la primera derivada
+ del polinomio en x = −2 y lo muestre
+también en pantalla. Comprueba que dicho valor es correcto.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+hornerdef(xi):=block([res,n,L],
+n:4,
+L:append(L:[],[res:coeff(p(x),x,n)]),
+for i:1 thru n do(
+    res:coeff(p(x),x,n-i)+res*xi,
+    L:append(L,[res])
+    ),
+res:L[1],           /*L es una lista con los coeficientes bn, de forma que l[1]=bn,..L[n]=b1, L[n+1]=b0 */
+for i:2 thru n do(    /*Por ello vamos desde i:2 hasta n*/
+    res:L[i]+res*xi
+    ),
+print ("res ",res)
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(hornerdef(-2)=dp(-2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Dibuja la gráfica del polinomio en un intervalo [a, b] en el que se encuentren
+todas las soluciones reales de la ecuación p(x) = 0 , justificando la
+elección del intervalo considerado. ¿Cuántas soluciones reales tiene dicha
+ecuación? ¿Por qué? ¿Y cuántas complejas? ¿Por qué?
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+Por el teorema 12, sabemos que toda solucion ,z,  del polinomio p(x)=2x^4-3x^2+3x-4, cumple que 
+para h=max{|ai/an|, para i=1,..n}, |z|<h+1, para este caso concreto |z|<3, luego podemos dibujar la grafica
+en el intervalo de x perteneciente a [-3,3] en el cual visualizaremos todas las soluciones.
+Como podemos observar contando el numero de cortes del eje de la x, hay 2 soluciones reales, luego como todo polinomio
+de grado n tiene exactamente n soluciones en C, y el numero de soluciones complejas siempre es par, podemos afirmar que existen
+2 soluciones reales y 2 complejas, todas ellas contenidas en el intervalo [-3,3]
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([p(x)], [x,-3,3])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: subsect start ]
+Elabora un programa que calcule las 5 primeras iteraciones del método
+de Newton-Raphson que considera x^(0) = −2 como aproximación inicial,
+usando el algoritmo de Hörner para calcular cada una de las iteraciones
+de dicho método. El programa debe mostrar en pantalla, con 32 dígitos
+significativos, todas las iteraciones calculadas.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: subsect start ]
+Haz un programa que calcule las iteraciones del método del apartado
+anterior hasta un número máximo establecido, de modo que cuando la
+diferencia en valor absoluto de dos iteraciones consecutiv<as sea menor que
+una cierta tolerancia (tol) se detenga el cálculo de las iteraciones, e informe
+de ello mediante el siguiente mensaje:
+ “Se ha alcanzado la tolerancia”.
+El programa además debe mostrar en pantalla el número de iteraciones
+que ha calculado y el valor con 32 dígitos significativos de (únicamente)
+la última de las iteraciones calculadas.
+ Ejecuta el programa para un número máximo de 30 iteraciones y tol=10−15:
+ ¿Cuántas iteraciones se han calculado? 
+¿Qué proporciona la última de las iteraciones calculada?¿Por qué?
+   [wxMaxima: subsect end   ] */
 
 /* Maxima can't load/batch files which end with a comment! */
 "Created with wxMaxima"$
